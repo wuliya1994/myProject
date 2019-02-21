@@ -15,42 +15,28 @@
       tabList: {
         type: Array,
         default: function () {
-          return [
-            {label: '全部', value: 1},
-            {label: '文学', value: 2},
-            {label: '历史', value: 3},
-            {label: '政治', value: 4},
-            {label: '地理', value: 5},
-            {label: '体育', value: 6},
-            {label: '科学', value: 7},
-            {label: '语文', value: 8},
-            {label: '其他', value: 9}
-          ]
-        }
-      }
+          return []
+        },
+      },
+      value: {
+        type: Object,
+        default: function () {
+          return null
+        },
+      },
     },
     data () {
       return {
-        bindData: ''
+        bindData: '',
       }
     },
     watch: {
       bindData () {
-        const data = {bindData: this.bindData}
-        this.$emit('bindDataChanged', data)
-      },
-      tabList () {
-        this._initDefaultData()
-      }
-    },
-    methods: {
-      _initDefaultData () {
-        this.bindData = this.tabList[0].value // 初始化bindData的值,默认选中第一个
-        this.$emit('tabListChanged', this.tabList)
+        this.$emit('input',this.bindData)
       }
     },
     created () {
-      this._initDefaultData()
+      this.bindData = this.value === null ?this.tabList[0].value : this.value// 初始化bindData的值,默认选中第一个,如果传了初始值则使用初始值
     }
   }
 </script>
@@ -81,8 +67,6 @@
     position: relative;
   }
   .tab label{
-    -webkit-box-flex: 1;
-    -moz-box-flex: 1;
     box-flex: 1;
     text-align: center;
     cursor: pointer;
